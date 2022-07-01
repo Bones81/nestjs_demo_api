@@ -17,7 +17,6 @@ export class ProductsService {
       price: price
     });
     const result = await newProduct.save()
-    console.log(result)
     return result.id as string;
   }
 
@@ -62,17 +61,18 @@ export class ProductsService {
     return updatedProduct
   }
 
-  deleteProduct(
+  async deleteProduct(
     prodId: string
   ) {
-    const index = this.findProduct(prodId)[1]
-    return this.products.splice(index, 1)
+    const deletedProduct = await this.productModel.findByIdAndRemove(prodId).exec()    
+    console.log(deletedProduct) //helps to ensure something was deleted
+    return deletedProduct
   }
 
   private async findProduct(id: string): Promise<Product> {
     let product;
     try {
-      product = await this.productModel.findById(id)
+      product = await this.productModel.findById(id).exec()
     } catch (error) {
       throw new NotFoundException('Could not find product.');
     }
