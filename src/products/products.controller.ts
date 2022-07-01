@@ -31,16 +31,17 @@ export class ProductsController {
     return this.productsService.getSingleProduct(prodId)
   }
 
-  // @Patch(':id')
-  // updateProduct(
-  //   @Param('id') prodId: string, 
-  //   @Body('title') prodTitle: string,
-  //   @Body('description') prodDesc: string, 
-  //   @Body('price') prodPrice: number
-  // ) {
-  //   return this.productsService.updateProduct(prodId, prodTitle, prodDesc, prodPrice)
+  @Patch(':id')
+  async updateProduct(
+    @Param('id') prodId: string, 
+    @Body('title') prodTitle: string,
+    @Body('description') prodDesc: string, 
+    @Body('price') prodPrice: number
+  ) {
+    const updatedProduct = await this.productsService.updateProduct(prodId, prodTitle, prodDesc, prodPrice)
+    return updatedProduct
 
-  // }
+  }
 
   @Delete(':id')
   removeProduct(
